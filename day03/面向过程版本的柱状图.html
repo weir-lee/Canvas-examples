@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <style>
+        body {padding: 0; margin:0;
+            background: #f0f0f0;}
+    </style>
+    <script src="konva/konva.js"></script>
+    <title>面向过程-柱状图</title>
+</head>
+<body>
+    <div id="container"></div>
+<script>
+    (function(){
+        //创建案例
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+        //创建层
+        var layer = new Konva.Layer();
+        stage.add(layer);
+
+        //设置坐标系原点和柱状图最大宽高
+        var maxWidth = stage.width() * 3/4; //柱状图最大宽度
+        var maxHeight = stage.height() * 1/2; //柱状图最大高度
+        var x0 = 1/8 * stage.width();
+        var y0 = 3/4 * stage.height();
+        //绘制基线
+        var bsLine = new Konva.Line({
+            points: [x0, y0, x0+maxWidth, y0],
+            strokeWidth: 1,
+            stroke: 'lightgreen'
+        });
+        layer.add(bsLine);
+
+        //柱状图的数据
+        var data = [
+            { name: '前端', value: '.8', color: 'green'},
+            { name: 'PHP', value: '.3', color: 'blue'},
+            { name: 'Java', value: '.7', color: 'red'},
+            { name: 'UI', value: '.9', color: 'orange'},
+            { name: 'IOS', value: '.4', color: 'purple'},
+            { name: 'Android', value: '.9', color: 'pink'}
+        ];
+        //绘制柱状图
+        var rectWidth = maxWidth/data.length;
+        data.forEach(function(item, index){
+            var rect = new Konva.Rect({
+                x: x0 + (index + 1/4) * rectWidth,
+                y: y0 - maxHeight * item.value,
+                width: 1/2 * rectWidth,
+                height: maxHeight * item.value,
+                fill: item.color,
+                cornerRadius: 1/12 * rectWidth
+            });
+            layer.add(rect);
+
+            var topText = new Konva.Text({
+                text: item.value * 100 + '%',
+                fontSize: 12,
+                x: x0 + index*rectWidth,
+                y: y0 - maxHeight * item.value - 12,
+                width: rectWidth,
+                align: 'center',
+                fill: item.color,
+                name: 'topText'
+            });
+            layer.add(topText);
+
+            var botText = new Konva.Text({
+                text: item.name,
+                fontSize: 12,
+                x: x0 + (1/4 + index) *rectWidth,
+                y: y0,
+                fill: item.color,
+                rotation: 30,
+                name: 'botText'
+            });
+            layer.add(botText);
+        });
+
+        layer.draw();
+
+        //添加动画, 点击任何的 舞台的区域的时候，都会触发下面的事件
+        stage.on('contentClick', function(){
+            layer.find('Rect').each(function(item, index){
+                item.y(y0);
+                item.height(0);
+
+                item.to({
+                    duration: 1,
+                    y: y0 - data[index].value*maxHeight,
+                    height: data[index].value*maxHeight
+                });
+            });
+
+            layer.find('.topText').each(function(item, index){
+                item.y(y0-12);
+                item.to({
+                    duration: 1,
+                    y: y0 - data[index].value*maxHeight - 12
+                });
+            });
+        });
+
+        layer.draw();
+
+    })();
+</script>
+</body>
+</html>

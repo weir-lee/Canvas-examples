@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        window.onload = function (){
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var ctx = canvas.getContext('2d');
+            canvas.width = 400;
+            canvas.height = 400;
+            canvas.style.border = '1px solid blue';
+
+            var img = new Image();
+            img.src = '../imgs/gameImgs/DMMban.png';
+            var directIndex = 0;
+            img.onload = function(){
+                var frameIndex = 0;
+                setInterval(function(){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.drawImage(img
+                            ,frameIndex * 40,directIndex * 65
+                            ,40,65
+                            ,200,200
+                            ,40,65
+
+                    );
+                    frameIndex++;
+                    frameIndex %= 4;
+                },300);
+            };
+
+            var btnDirectLeft = document.getElementById('direct_left');
+            btnDirectLeft.addEventListener('click',function(){
+                directIndex = 1;
+            });
+
+            var btnDirectRight = document.getElementById('direct_right');
+            btnDirectRight.addEventListener('click',function(){
+                directIndex = 2;
+            });
+
+            var btnDirectBack = document.getElementById('direct_back');
+            btnDirectBack.addEventListener('click',function(){
+                directIndex = 3;
+            });
+
+            var btnDirectFront = document.getElementById('direct_front');
+            btnDirectFront.addEventListener('click',function(){
+                directIndex = 0;
+            });
+        };
+    </script>
+</head>
+<body>
+<canvas>ie9支持,请升级浏览器。</canvas>
+<br/>
+<button id="direct_left">往左</button>
+<button id="direct_right">往右</button>
+<button id="direct_back">往后</button>
+<button id="direct_front">往前</button>
+</body>
+</html>

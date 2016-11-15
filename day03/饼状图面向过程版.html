@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <style>
+        body {padding:0; margin:0; background:#f0f0f0;}
+    </style>
+    <script src="konva/konva.js"></script>
+    <script>
+        window.onload = function(){
+            var centX = window.innerWidth/2;
+            var centY = window.innerHeight/2;
+            var stage = new Konva.Stage({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                container: 'container'
+            });
+            var layer = new Konva.Layer();
+            stage.add(layer);
+
+            var x0 = centX, y0 = centY;
+            var circle = new Konva.Circle({
+                x: x0,
+                y: y0,
+                radius: 110,
+                stroke: '#ccc'
+            });
+            layer.add(circle);
+
+            var data = [
+                { name: "前端", value: .25, color: '#e0e'  },
+                { name: "php",  value: .2,  color: 'orange'},
+                { name: "UI",	value: .3,	color: 'blue'  },
+                { name: "C++",	value: .05,	color: 'green' },
+                { name: "游戏",	value: .1,	color: 'purple'},
+                { name: "Java",	value: .1,	color: 'red'   }
+            ];
+            var tempAngle = -90;
+            data.forEach(function(item,index){
+                var angle = 360*item.value;
+                var wedge = new Konva.Wedge({
+                    x: x0,
+                    y: y0,
+                    radius: 100,
+                    fill: item.color,
+                    angle: angle,
+                    rotation: tempAngle
+                });
+                layer.add(wedge);
+
+                var textAngle = tempAngle+angle/2;
+                var text = new Konva.Text({
+                    x: x0 + 120 * Math.cos(Math.PI*textAngle/180),
+                    y: y0 + 120 * Math.sin(Math.PI*textAngle/180),
+                    text: item.name,
+                    fill: item.color
+                });
+                if(textAngle > 90 && textAngle < 270){
+                    text.x(text.x()-text.getWidth());
+                }
+                tempAngle += angle;
+                layer.add(text);
+            });
+
+            layer.draw();
+
+            var wedges = layer.find('Wedge');
+            wedges.each(function(item, index){
+                item.angle(0);
+            });
+
+            var index = 0;
+            function play(){
+                wedges[index].to({
+                    duration: data[index].value * 2,
+                    angle: 360 * data[index].value,
+                    onFinish: function(){
+                        index++;
+                        if(index >= data.length){
+                            return;
+                        }
+                        play();
+                    }
+                });
+            }
+
+            play();
+
+
+
+
+
+        }
+    </script>
+    <title></title>
+
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>

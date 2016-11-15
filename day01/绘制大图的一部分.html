@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        window.onload = function (){
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var ctx = canvas.getContext('2d');
+            canvas.width = 600;
+            canvas.height = 600;
+            canvas.border = '1px solid blue';
+
+            var img = new Image();
+            img.src = 'imgs/gameImgs/DMMban.png';
+            img.onload = function(){
+                ctx.drawImage(img,80,130,40,65,100,100,40,65);
+            };
+        };
+    </script>
+</head>
+<body>
+<canvas>ie9支持,请升级浏览器。</canvas>
+</body>
+</html>

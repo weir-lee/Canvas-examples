@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+    </style>
+    <script src="konva/konva.js"></script>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    //创建舞台
+    var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
+    //创建层
+    var layer = new Konva.Layer();
+    stage.add(layer);
+
+    //中心点坐标
+    var cenX = stage.width()/2;
+    var centY = stage.height()/2;
+    var x = 1/8 * stage.width();
+    var y = centY;
+    var height = 1/12*stage.height();
+    var maxWidth = 3/4*stage.width();
+
+    //绘制进度条
+    var innerRect = new Konva.Rect({
+        x:x,
+        y:y,
+        width:100,
+        height: height,
+        opacity:.7,
+        fill: 'lightblue',
+        cornerRadius: height/2
+    });
+    //把内部矩形放到层里
+    layer.add(innerRect);
+    //创建外边框矩形
+    var outerRect = new Konva.Rect({
+        x: x,
+        y: y,
+        width: maxWidth,
+        height: height,
+        stroke: 'blue',
+        strokeWidth: 4,
+        cornerRadius: height/2
+    });
+    layer.add(outerRect);
+
+    layer.draw();
+
+    var loadImgIndex = 0;
+    var imgSrcArray = ['./1.png','./2.png'];
+
+    for(var i = 0; i < imgSrcArray.length; i++){
+        var img = new Image();
+        img.src = imgSrcArray[i];
+        img.onload = function(){
+            loadImgIndex++;
+            innerRect.to({
+                width: loadImgIndex / imgSrcArray.length * maxWidth,
+                duration: 1.4,
+                easing: Konva.Easings.ElasticEaseOut
+            });
+        }
+    }
+</script>
+
+<body>
+
+</body>
+</html>

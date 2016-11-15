@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<canvas>ie9以上支持，请升级浏览器。</canvas>
+</body>
+<script>
+    function toRad(angel){
+        return Math.PI*angel/180;
+    }
+
+    window.onload = function(){
+        var canvas = document.getElementsByTagName('canvas')[0];
+        var ctx = canvas.getContext('2d');
+        canvas.width = 900;
+        canvas.height = 700;
+        canvas.style.border = "1px solid #000";
+
+        var data = [{
+            "value": .2,
+            "color": "red",
+            "title": "应届生"
+        },{
+            "value": .3,
+            "color": "blue",
+            "title": "社会招生"
+        },{
+            "value": .4,
+            "color": "green",
+            "title": "老学员推荐"
+        },{
+            "value": .1,
+            "color": "#ccc",
+            "title": "公开课"
+        }];
+
+        var startAngel = -90;
+        var endAngel;
+        var x=400, y = 400, r = 200;
+        var r0 = 20;
+        for(var i = 0; i < data.length; i++){
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            ctx.colorStyle = data[i].color;
+            ctx.fillStyle = data[i].color;
+            // 当前扇区的角度
+            var tempAngel = data[i].value*360;
+            endAngel = startAngel + tempAngel;
+            /* arc参数： x,y圆心坐标; r圆心半径; startAngel圆弧的起始角度; endAngel圆弧的终止角度 */
+            ctx.arc(x, y, r, toRad(startAngel), toRad(endAngel));
+
+//            var delta = (toRad(endAngel) - toRad(startAngel))/2;
+            var TextAngel = toRad(startAngel + 1/2 * tempAngel);
+//            var TextAngel = toRad(startAngel) + delta;
+            var x1 = x + Math.cos(TextAngel) * (r + r0);
+            var y1 = y + Math.sin(TextAngel) * (r + r0);
+
+
+            var text = data[i].value*100 + '%';
+            if(TextAngel > 90*Math.PI/180 && TextAngel < 270*Math.PI/180){
+                ctx.textAlign = 'end';
+            }
+
+            ctx.fillText(text, x1, y1);
+
+            ctx.fill();
+
+            startAngel = endAngel; // 更新下一次描绘的起始角度
+        }
+    }
+
+
+</script>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="konva/konva.js"></script>
+    <style>
+        body {margin: 0; padding:0;
+            background: #f0f0f0;}
+    </style>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    (function(){
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+
+        var bglayer = new Konva.Layer();
+        stage.add(bglayer);
+
+        var centX = stage.width()/2;
+        var centY = stage.height()/2;
+        //绘制背景
+        var innerRadius = 126;
+        var outerRadius = 220;
+
+        //绘制背景内层虚线圆
+        var innerCircle = new Konva.Circle({
+            x: centX,
+            y: centY,  //圆心点坐标
+            radius: innerRadius,
+            strokeWidth: 4,
+            stroke: '#d8d8d8',
+            dash: [10,4]
+        });
+        bglayer.add(innerCircle);
+
+        //绘制背景外层虚线圆
+        var outerCircle = new Konva.Circle({
+            x: centX,
+            y: centY,  //圆心点坐标
+            radius: outerRadius,
+            strokeWidth: 4,
+            stroke: '#d8d8d8',
+            dash: [10,4]
+        });
+        bglayer.add(outerCircle);
+
+        //绘制背景中心圆
+        //把内圆、圆环、文本放到一个组上
+        var web_group = new Konva.Group();
+        var cenCircle = new Konva.Circle({
+            x: centX,
+            y: centY,
+            radius: 66,
+            fill: '#727898'
+        });
+        web_group.add(cenCircle);
+
+        var cenRing = new Konva.Ring({
+            x: centX,
+            y: centY,
+            innerRadius: 66,
+            outerRadius: 90,
+            fill: '#dcdcdc'
+        });
+        web_group.add(cenRing);
+
+        var cenText = new Konva.Text({
+            x: centX - 33,
+            y: centY - 6,
+            width: 33*2,
+            align: 'center',
+            text: 'WEB全栈',
+//            fontFamily: 'Microsoft YaHei',
+//            fontSize : 13,
+            fontWeight: 'bold',
+            fill: '#fff'
+        });
+        web_group.add(cenText);
+        bglayer.add(web_group);
+
+        bglayer.draw();
+
+    })();
+</script>
+</body>
+</html>

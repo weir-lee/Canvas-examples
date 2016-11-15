@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>canvas第一个例子</title>
+    <style>
+        #demo {
+            /* 不要在css设置canvas的宽高 */
+            /*width: 600px;
+            height: 600px;*/
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            // 第一步：拿到canvas标签
+            var canvas = document.querySelector('#demo');
+            // 第二步： 拿到上下文
+            var ctx = canvas.getContext('2d');
+
+            // 第三步： 绘制
+            ctx.moveTo(100,100);    // 把画笔移动到点(100,100)的位置
+            ctx.lineTo(200,100);    // 从画笔位置处画一条直线到(200,100)
+            ctx.lineTo(100,200);    // 再画一条直线到(100,300)
+            ctx.closePath();
+            ctx.lineWidth = 4; // 线宽
+            ctx.strokeStyle = 'rgba(0,200,255,0.5)'; // 线的颜色
+            ctx.stroke(); // 描边
+            ctx.fillStyle = 'deeppink';
+            ctx.fill();
+        };
+    </script>
+</head>
+<body>
+    <canvas id="demo" width="300" height="300">
+        IE9以上才支持。
+        您的浏览器版本太低，请升级。
+    </canvas>
+</body>
+</html>

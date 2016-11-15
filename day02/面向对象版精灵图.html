@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="Sprite.js"></script>
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <br/>
+    <button id="left">往左</button>
+    <button id="right">往右</button>
+    <button id="back">往后</button>
+    <button id="front">往前</button>
+</body>
+<script>
+    (function(){
+        var canvas = document.getElementById('canvas');
+        canvas.width = 400;
+        canvas.height = 400;
+        canvas.style.border = '1px solid blue';
+        var ctx = canvas.getContext('2d');
+
+        // 参数
+        var option = {
+            src: '../imgs/gameImgs/DMMban.png',
+            frameIndex: 0,
+            // dirIndex: 0,
+            fps: 5,
+            sImgW: 40,
+            sImgH: 65,
+            x: 100,
+            y: 100,
+            drawW: 40,
+            drawH: 65*1,
+            ctx: ctx
+        };
+
+        var s = new Sprite(option);
+        s.render(ctx);
+
+        var btnLeft = document.getElementById('left');
+        btnLeft.addEventListener('click', function(){
+            s.changeDirect('left');
+        });
+
+        var btnRight = document.getElementById('right');
+        btnRight.addEventListener('click', function(){
+            s.changeDirect('right');
+        });
+
+        var btnFront = document.getElementById('front');
+        btnFront.addEventListener('click', function(){
+            s.changeDirect('front');
+        });
+
+        var btnBack = document.getElementById('back');
+        btnBack.addEventListener('click', function(){
+            s.changeDirect('back');
+        });
+    })();
+</script>
+</html>

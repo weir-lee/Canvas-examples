@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>canvas绘制表格</title>
+</head>
+<body>
+    <canvas id="tab">
+        ie9以上支持。请升级浏览器。
+    </canvas>
+    <script>
+        window.onload = function(){
+            var canvas = document.getElementById('tab');
+            var ctx = canvas.getContext('2d');
+            canvas.width = 300;
+            canvas.height = 300;
+            canvas.style.border = '1px solid black';
+
+            var cellW = 10, cellH = 10;
+
+            for(var i = 0; i < canvas.width/cellW; i++){
+                ctx.moveTo(i*cellW, 0);
+                ctx.lineTo(i*cellW,canvas.height);
+
+                ctx.moveTo(0,i*cellH);
+                ctx.lineTo(canvas.width,i*cellH);
+            }
+            ctx.lineWidth = 0.4;
+            ctx.strokeStyle= 'rgba(0,0,255,1)';
+            ctx.stroke();
+        };
+    </script>
+</body>
+</html>

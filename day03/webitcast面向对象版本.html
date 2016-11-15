@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <script src="./konva/konva.min.js"></script>
+    <script src="CircleText.js"></script>
+    <style>
+        body {margin: 0; padding:0;
+            background: #f0f0f0;}
+    </style>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    (function(){
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+
+        var bglayer = new Konva.Layer();
+        stage.add(bglayer);
+
+        var centX = stage.width()/2;
+        var centY = stage.height()/2;
+        //绘制背景
+        var innerRadius = 126;
+        var outerRadius = 220;
+
+        //绘制背景内层虚线圆
+        var innerCircle = new Konva.Circle({
+            x: centX,
+            y: centY,  //圆心点坐标
+            radius: innerRadius,
+            strokeWidth: 4,
+            stroke: '#d8d8d8',
+            dash: [10,4]
+        });
+        bglayer.add(innerCircle);
+
+        //绘制背景外层虚线圆
+        var outerCircle = new Konva.Circle({
+            x: centX,
+            y: centY,  //圆心点坐标
+            radius: outerRadius,
+            strokeWidth: 4,
+            stroke: '#d8d8d8',
+            dash: [10,4]
+        });
+        bglayer.add(outerCircle);
+
+        //绘制背景中心圆、圆环、文本
+        var cenCircleText = new CircleText({
+            x: centX,
+            y: centY,
+            innerRadius: 66,
+            outerRadius: 90,
+            innerStyle: '#727898',
+            outerStyle: '#dcdcdc',
+            text: 'WEB全栈'
+        });
+        cenCircleText.addToGroupOrLayer(bglayer);
+        bglayer.draw();
+
+        //创建2环层
+        //创建一个组，把两组圆添加到该组上，组做运动
+        var L2Group = new Konva.Group({
+            x: centX,
+            y: centY
+        });
+        var L2_CircleText_CSS3 = new CircleText({
+            x: innerRadius * Math.cos(Math.PI * 160 / 180),
+            y: innerRadius * Math.sin(Math.PI * 160 / 180),
+            innerRadius: 30,
+            outerRadius: 40,
+            innerStyle: 'pink',
+            outerStyle: '#dcdcdc',
+            text: 'CSS3',
+        });
+        L2_CircleText_CSS3.addToGroupOrLayer(L2Group);
+
+        var L2_CircleText_HTML5 = new CircleText({
+            x: innerRadius * Math.cos(-Math.PI * 60 / 180),
+            y: innerRadius * Math.sin(-Math.PI * 60 / 180),
+            innerRadius: 30,
+            outerRadius: 40,
+            innerStyle: 'orange',
+            outerStyle: '#dcdcdc',
+            text: 'HTML5',
+        });
+        L2_CircleText_HTML5.addToGroupOrLayer(L2Group);
+       //L2Group.add(L2_CircleText_HTML5.group);
+        bglayer.add(L2Group);
+
+        //创建3环层
+        //创建一个组，把两组圆添加到该组上，组做运动
+        var L3Group = new Konva.Group({
+            x: centX,
+            y: centY
+        });
+        var L3_CircleText_JS = new CircleText({
+            x: outerRadius * Math.cos(Math.PI * 30 / 180),
+            y: outerRadius * Math.sin(Math.PI * 30 / 180),
+            innerRadius: 40,
+            outerRadius: 50,
+            innerStyle: '#A4C9F6',
+            outerStyle: '#000',
+            text: 'JS',
+        });
+        L3_CircleText_JS.addToGroupOrLayer(L3Group);
+        bglayer.add(L3Group);
+
+
+        //创建一个动画层，把需要做动画的组添加到动画层上
+        var animateLayer = new Konva.Layer();
+        stage.add(animateLayer);  //给舞台添加层
+        animateLayer.add(L2Group);
+        animateLayer.add(L3Group);
+//        animateLayer.draw();
+
+
+        var rotateAngelPerSecond = 40; //设置每秒旋转的度数
+        var animate = new Konva.Animation(function(frame){
+            //计算当前帧需要旋转的角度
+            var rotateAngel = rotateAngelPerSecond * frame.timeDiff / 1000;
+            //2环旋转
+            L2Group.rotate(rotateAngel);
+            L2Group.getChildren().each(function(item,index){
+                item.rotate(-rotateAngel);
+            });
+
+            //3环旋转
+            L3Group.rotate(-rotateAngel);
+            L3Group.getChildren().each(function(item,index){
+                item.rotate(rotateAngel);
+            });
+        }, animateLayer);
+        //开启动画
+        animate.start();
+
+        //给动画层绑定事件
+        animateLayer.on('mouseover',function(){
+            rotateAngelPerSecond = 15;
+        });
+        animateLayer.on('mouseout',function(){
+            rotateAngelPerSecond = 40;
+        });
+
+
+
+    })();
+</script>
+</body>
+</html>

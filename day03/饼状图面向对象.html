@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <style>
+        body {padding:0; margin:0; background:#f0f0f0;}
+    </style>
+    <script src="konva/konva.js"></script>
+    <script src="Pie.js"></script>
+    <script>
+        window.onload = function(){
+            var centX = window.innerWidth/2;
+            var centY = window.innerHeight/2;
+            var stage = new Konva.Stage({
+                width: window.innerWidth,
+                height: window.innerHeight,
+                container: 'container'
+            });
+            var layer = new Konva.Layer();
+            stage.add(layer);
+
+            var x0 = centX, y0 = centY;
+            var circle = new Konva.Circle({
+                x: x0,
+                y: y0,
+                radius: 110,
+                stroke: '#ccc'
+            });
+            layer.add(circle);
+
+            var data = [
+                { name: "前端", value: .25, color: '#e0e'  },
+                { name: "php",  value: .2,  color: 'orange'},
+                { name: "UI",	value: .3,	color: 'blue'  },
+                { name: "C++",	value: .05,	color: 'green' },
+                { name: "游戏",	value: .1,	color: 'purple'},
+                { name: "Java",	value: .1,	color: 'red'   }
+            ];
+
+            var pie = new Pie({
+                x: x0,
+                y: y0,
+                radius: 100,
+                data: data
+            });
+            pie.addToGroupOrLayer(layer);
+
+            layer.draw();
+
+            pie.play();
+
+        }
+    </script>
+    <title></title>
+
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>

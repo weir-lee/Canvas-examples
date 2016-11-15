@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas>请升级浏览器至ie9以上。</canvas>
+    <script>
+        (function(){
+            var canvas = document.getElementsByTagName('canvas')[0];
+            canvas.width = 600;
+            canvas.height = 600;
+            canvas.style.border = '1px solid black';
+            var ctx = canvas.getContext('2d');
+
+            //绘制坐标系
+            var x0 = 100, y0 = 400;  //坐标原点
+            var maxWidth = 400, maxHeight = 300;
+            var arrowWidth = 10;
+            //绘制x轴
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x0+maxWidth,y0);
+            ctx.lineTo(x0+maxWidth - arrowWidth, y0+arrowWidth);
+            ctx.moveTo(x0+maxWidth,y0);
+            ctx.lineTo(x0+maxWidth - arrowWidth, y0-arrowWidth);
+            ctx.strokeStyle = 'blue';
+            ctx.stroke();
+            //绘制y轴
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x0, y0-maxHeight);
+            ctx.strokeStyle = 'red';
+            ctx.lineTo(x0-arrowWidth, y0-maxHeight+arrowWidth);
+            ctx.moveTo(x0, y0-maxHeight);
+            ctx.lineTo(x0+arrowWidth, y0-maxHeight+arrowWidth);
+            ctx.stroke();
+
+            //绘制分段线段
+            var data = [0.4,0.5,0.8,0.7];
+            var pointWidth = maxWidth/(data.length+1);
+            ctx.beginPath();
+            for(var i = 0; i < data.length; i++){
+                var y = y0 - data[i] * maxHeight;
+                var x = x0 + (i+1) * pointWidth;
+                ctx.lineTo(x, y);
+                ctx.stroke();
+        }})();
+
+    </script>
+</body>
+</html>
